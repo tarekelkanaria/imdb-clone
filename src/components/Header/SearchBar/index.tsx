@@ -21,7 +21,6 @@ const SearchBar = () => {
         placeholder="Search Keywords..."
         onChange={(e) => setSearchWords(e.target.value)}
         value={searchWords}
-        suppressHydrationWarning
         className="w-full bg-transparent outline-none rounded-sm placeholder:text-gray-500 py-4 flex-1 text-xl"
       />
       <button

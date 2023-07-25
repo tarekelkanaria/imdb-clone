@@ -1,20 +1,23 @@
-import { MovieType } from "./types/movie";
+import { MovieType } from "@/app/types/movie";
 import MoviesList from "@/components/MoviesList";
 import PaginationActions from "@/components/PaginationActions";
 
 const API_ACCESS_TOKEN = process.env.API_ACCESS_TOKEN;
 
-export default async function Home({
+export default async function ArchivePages({
+  params,
   searchParams,
 }: {
+  params: { pageNumber: string };
   searchParams: { genre?: string };
 }) {
+  const { pageNumber } = params;
+  const { genre } = searchParams;
+
   const url = `https://api.themoviedb.org/3/${
-    searchParams.genre && searchParams.genre === "topRated"
-      ? `discover/movie?include_video=false&language=en-US&sort_by=vote_average.desc&without_genres=99,10755&vote_count.gte=200&page=1`
-      : searchParams.genre && searchParams.genre === "trending"
-      ? "trending/movie/week"
-      : `discover/movie?include_video=false&language=en-US&sort_by=popularity.desc&page=1`
+    genre && genre === "topRated"
+      ? `discover/movie?include_video=false&language=en-US&sort_by=vote_average.desc&without_genres=99,10755&vote_count.gte=200&page=${pageNumber}`
+      : `discover/movie?include_video=false&language=en-US&sort_by=popularity.desc&page=${pageNumber}`
   }`;
 
   const response = await fetch(url, {
@@ -35,12 +38,11 @@ export default async function Home({
   return (
     <>
       <MoviesList movies={results} />
-      {!searchParams.genre || searchParams.genre !== "trending" ? (
-        <PaginationActions
-          totalPages={allPages}
-          category={searchParams.genre === "topRated" ? "topRated" : ""}
-        />
-      ) : null}
+      <PaginationActions
+        updatedNumber={parseInt(pageNumber)}
+        totalPages={allPages}
+        category={genre ? "topRated" : ""}
+      />
     </>
   );
 }

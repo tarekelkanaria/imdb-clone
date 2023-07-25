@@ -51,7 +51,7 @@ export default async function MovieDetails({
         <h2 className="p-2 text-2xl font-bold mb-3">{title}</h2>
         {runtime && runtime > 0 && (
           <p className="p-2 text-sm opacity-90 mb-3">
-            {hours}h {mins > 0 && `${mins}m`}
+            {hours > 0 && `${hours}h`} {mins > 0 && `${mins}m`}
           </p>
         )}
         <p className="p-2 text-sm opacity-90 mb-3">
@@ -77,7 +77,7 @@ export default async function MovieDetails({
           </p>
           <p>
             <strong className="mr-1 font-semibold text-xl">Rating: </strong>
-            {Math.round(vote_average)}{" "}
+            {Math.round(vote_average)}
             <em className="mb-2 ml-1 opacity-90 text-sm">/10</em>
           </p>
         </div>

@@ -5,7 +5,7 @@ const API_ACCESS_TOKEN = process.env.API_ACCESS_TOKEN;
 
 async function getMovies(
   queryString: string
-): Promise<{ results: MovieType[] }> {
+): Promise<{ results: MovieType[]; total_pages: number }> {
   const response = await fetch(
     `https://api.themoviedb.org/3/search/movie?query=${queryString}&language=en-US&page=1`,
     {
