@@ -1,16 +1,24 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 
 const SearchBar = () => {
   const [searchWords, setSearchWords] = useState("");
   const router = useRouter();
+  const submitRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      submitRef.current!.click();
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, [searchWords]);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchWords.trim().length === 0) return;
-    router.push(`/search/${searchWords}`);
+    router.push(`/?search=${searchWords}`);
     setSearchWords("");
   };
 
@@ -25,6 +33,7 @@ const SearchBar = () => {
       />
       <button
         type="submit"
+        ref={submitRef}
         disabled={searchWords.trim().length === 0}
         className="text-amber-600 disabled:text-gray-500 disabled:cursor-not-allowed ml-1"
       >

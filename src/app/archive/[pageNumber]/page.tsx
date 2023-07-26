@@ -9,14 +9,16 @@ export default async function ArchivePages({
   searchParams,
 }: {
   params: { pageNumber: string };
-  searchParams: { genre?: string };
+  searchParams: { genre?: string; search?: string };
 }) {
   const { pageNumber } = params;
-  const { genre } = searchParams;
+  const { genre, search } = searchParams;
 
   const url = `https://api.themoviedb.org/3/${
     genre && genre === "topRated"
       ? `discover/movie?include_video=false&language=en-US&sort_by=vote_average.desc&without_genres=99,10755&vote_count.gte=200&page=${pageNumber}`
+      : search
+      ? `search/movie?query=${search}&language=en-US&page=${pageNumber}`
       : `discover/movie?include_video=false&language=en-US&sort_by=popularity.desc&page=${pageNumber}`
   }`;
 
@@ -41,7 +43,7 @@ export default async function ArchivePages({
       <PaginationActions
         updatedNumber={parseInt(pageNumber)}
         totalPages={allPages}
-        category={genre ? "topRated" : ""}
+        category={genre ? { genre: "topRated" } : search ? { search } : {}}
       />
     </>
   );

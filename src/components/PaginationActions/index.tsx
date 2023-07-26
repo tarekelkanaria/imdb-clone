@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 
 const PaginationActions: React.FC<{
   totalPages: number;
-  category: string;
+  category: { genre?: string; search?: string };
   updatedNumber?: number;
 }> = ({ totalPages, category, updatedNumber }) => {
   const [pageNumber, setPageNumber] = useState(
@@ -16,7 +16,12 @@ const PaginationActions: React.FC<{
   const router = useRouter();
 
   useEffect(() => {
-    const categoryParam = category === "topRated" ? "?genre=topRated" : "";
+    const categoryParam =
+      category && category.genre
+        ? "?genre=topRated"
+        : category && category.search
+        ? `?search=${category.search}`
+        : "";
     if (pageNumber === 1) {
       router.push(`/${categoryParam}`);
     } else {

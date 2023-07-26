@@ -44,7 +44,7 @@ export default async function MovieDetails({
         alt={`${title} poster Not found`}
         placeholder="blur"
         blurDataURL="/loader.svg"
-        style={{ height: "auto" }}
+        style={{ maxWidth: "100%", height: "auto" }}
         className="rounded-lg mb-2 lg:ml-4"
       />
       <article className="mb-2 lg:p-4 lg:mr-4">
